@@ -1,96 +1,93 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 02, 2024 at 10:39 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `contact`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contact`
+--
+
+CREATE TABLE `contact` (
+  `id_contact` int(11) NOT NULL,
+  `nama_contact` varchar(255) DEFAULT NULL,
+  `nomor_hp` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`id_contact`, `nama_contact`, `nomor_hp`) VALUES
+(1, 'Divo Tahta Imannulloh', '083119536369'),
+(12, 'Divo Tahta Ganteng', '083199536369');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
 CREATE TABLE `user` (
   `id_user` int(11) NOT NULL,
-  `username` integer,
-  `email` varchar(255),
-  `password` varchar(255),
-  `created_at` timestamp
+  `username` int(11) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `distributor` (
-  `id_distributor` int(11) NOT NULL,
-  `nama_distributor` varchar(255),
-  `alamat_distributor` varchar(255),
-  `no_hp_distributor` varchar(255),
-  `nik_distributor` varchar(255) UNIQUE,
-  `foto_ktp` varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Indexes for dumped tables
+--
 
-CREATE TABLE `recepient` (
-  `id_recepient` int(11) NOT NULL,
-  `nama_recepient` varchar(255),
-  `no_hp_recepient` varchar(255),
-  `alamat_recepient` varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+--
+-- Indexes for table `contact`
+--
+ALTER TABLE `contact`
+  ADD PRIMARY KEY (`id_contact`);
 
-
-CREATE TABLE `rokok` (
-  `id_rokok` int(11) NOT NULL,
-  `nama_rokok` varchar(255),
-  `gambar_rokok` varchar(255),
-  `harga_pack` integer,
-  `type` ENUM('Filter', 'Kretek')
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `jenis_pengiriman` (
-  `id_jenis_pengiriman` integer,
-  `nama_jenis_pengiriman` varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-CREATE TABLE `distribute` (
-  `id_distribute` int(11) NOT NULL,
-  `distributor_id` integer,
-  `recepient_id` integer,
-  `rokok_id` integer,
-  `kuantitas_pengiriman` integer,
-  `jenis_pengiriman_id` integer,
-  `tanggal_kirim` datetime,
-  `tanggal_terima` datetime,
-  `total_biaya` integer
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
+--
+-- Indexes for table `user`
+--
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id_user`);
 
-ALTER TABLE `distributor`
-  ADD PRIMARY KEY (`id_distributor`);
+--
+-- AUTO_INCREMENT for dumped tables
+--
 
-ALTER TABLE `recepient`
-  ADD PRIMARY KEY (`id_recepient`);
+--
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `id_contact` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
-ALTER TABLE `rokok`
-  ADD PRIMARY KEY (`id_rokok`);
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
 
-ALTER TABLE `jenis_pengiriman`
-  ADD PRIMARY KEY (`id_jenis_pengiriman`);
-
-ALTER TABLE `distribute`
-  ADD PRIMARY KEY (`id_distribute`),
-  ADD KEY `rokok_id` (`rokok_id`),
-  ADD KEY `distributor_id` (`distributor_id`),
-  ADD KEY `recepient_id` (`recepient_id`),
-  ADD KEY `jenis_pengiriman_id` (`jenis_pengiriman_id`);
-
-
-ALTER TABLE `user` MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `distributor` MODIFY `id_distributor` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `recepient` MODIFY `id_recepient` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `rokok` MODIFY `id_rokok` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `jenis_pengiriman` MODIFY `id_jenis_pengiriman` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `distribute` MODIFY `id_distribute` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `distribute`
-  ADD CONSTRAINT `rokok_ibfk_1` FOREIGN KEY (`rokok_id`) REFERENCES `rokok` (`id_rokok`) ON DELETE CASCADE;
-
-
-ALTER TABLE `distributor`
-  ADD CONSTRAINT `distributor_ibfk_1` FOREIGN KEY (`id_distributor`) REFERENCES `distribute` (`distributor_id`) ON DELETE CASCADE;
-
-ALTER TABLE `recepient`
-  ADD CONSTRAINT `recepient_ibfk_1` FOREIGN KEY (`id_recepient`) REFERENCES `distribute` (`recepient_id`) ON DELETE CASCADE;
-
-ALTER TABLE `jenis_pengiriman`
-  ADD CONSTRAINT `jenis_pengiriman_ibfk_1` FOREIGN KEY (`id_jenis_pengiriman`) REFERENCES `distribute` (`jenis_pengiriman_id`) ON DELETE CASCADE;
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
